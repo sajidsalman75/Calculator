@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="btnAdd">+</string>
+    <string name="btnDiv">/</string>
+    <string name="btnSub">-</string>
+    <string name="btnMul">*</string>
+    <string name="btnDig0">0</string>
+    <string name="btnDig1">1</string>
+    <string name="btnDig2">2</string>
+    <string name="btnDig3">3</string>
+    <string name="btnDig4">4</string>
+    <string name="btnDig5">5</string>
+    <string name="btnDig6">6</string>
+    <string name="btnDig7">7</string>
+    <string name="btnDig8">8</string>
+    <string name="btnDig9">9</string>
+    <string name="btnDot">.</string>
+    <string name="btnBrackets">( )</string>
+    <string name="btnDel">DEL</string>
+    <string name="btnAc">AC</string>
+    <string name="btnEqual">=</string>
+</resources>
