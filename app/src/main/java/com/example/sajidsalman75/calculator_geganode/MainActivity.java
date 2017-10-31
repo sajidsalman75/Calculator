@@ -3,6 +3,8 @@ package com.example.sajidsalman75.calculator_geganode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TextView;
@@ -957,6 +959,9 @@ public class MainActivity extends AppCompatActivity {
                         else{
                             tvIO.setText(digits.pop().toString());
                         }
+                        Animation animation2 =
+                                AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide);
+                        tvIO.startAnimation(animation2);
                         functions.push("=");
                     }
                 }
