@@ -7,31 +7,77 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
+    //stacks to use in the calculations
+
+    //whole statement will be in this stack
+    final Stack digits = new Stack();
+
+    //it will be used while calculation
+    final Stack calculation = new Stack();
+
+    //it will contains all the operators in it including brackets
+    final Stack functions = new Stack();
+
+    //it will contain the open brackets that will be removed when all the closed brackets have been placed
+    final Stack brackets = new Stack();
+
+    public void onDigitClick(View v){
+        Button btnClick = (Button) v;
+        TextView tvIO = (TextView) findViewById(R.id.tvIO);
+        TextView tvOut = (TextView) findViewById(R.id.tvOut);
+        if(digits.empty()){
+            //set text in the TextView
+            tvIO.setText(tvIO.getText() + btnClick.getText().toString());
+            tvOut.setText(tvOut.getText() + btnClick.getText().toString());
+        }
+        else{
+            //check if there is y on the top
+            //y means there is an operator before it or if there is a bracket
+            if (!digits.peek().toString().equals("y")){
+                //check if the input textbox is empty
+                if(tvIO.getText().toString().equals("")){
+                    tvIO.setText(digits.pop().toString() + btnClick.getText().toString());
+                    tvOut.setText(tvOut.getText().toString() + btnClick.getText().toString());
+                }
+                else{
+                    tvIO.setText(tvIO.getText() + btnClick.getText().toString());
+                    tvOut.setText(tvOut.getText() + btnClick.getText().toString());
+                }
+            }
+            //if there is no y on the top then it means there is a number on the top
+            else{
+                tvIO.setText("");
+                digits.pop();
+                if(digits.peek().toString().equals(")")){
+                    digits.push("*");
+                    functions.push("*");
+                    tvOut.setText(tvOut.getText() + "*");
+                }
+                tvIO.setText(tvIO.getText() + btnClick.getText().toString());
+                tvOut.setText(tvOut.getText().toString() + btnClick.getText().toString());
+            }
+        }
+        //check if there is = on the top of functions stack
+        //this = is placed in the stack when = button is pressed
+        if (!functions.empty() && functions.peek().toString().equals("=")){
+            tvIO.setText("");
+            tvOut.setText("");
+            functions.pop();
+            tvIO.setText(tvIO.getText() + btnClick.getText().toString());
+            tvOut.setText(tvOut.getText().toString() + btnClick.getText().toString());
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //stacks to use in the calculations
-
-        //whole statement will be in this stack
-        final Stack digits = new Stack();
-
-        //it will be used while calculation
-        final Stack calculation = new Stack();
-
-        //it will contains all the operators in it including brackets
-        final Stack functions = new Stack();
-
-        //it will contain the open brackets that will be removed when all the closed brackets have been placed
-        final Stack brackets = new Stack();
 
         //get all the UI elements
         final TextView tvOut = (TextView) findViewById(R.id.tvOut);
@@ -58,50 +104,7 @@ public class MainActivity extends AppCompatActivity {
         //click listener for all the digits will be like this
         btn0.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-
-
-                //check if it is empty
-                if(digits.empty()){
-                    //set text in the TextView
-                    tvIO.setText(tvIO.getText() + btn0.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn0.getText().toString());
-                }
-                else{
-                    //check if there is y on the top
-                    //y means there is an operator before it or if there is a bracket
-                    if (!digits.peek().toString().equals("y")){
-                        //check if the input textbox is empty
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "0");
-                            tvOut.setText(tvOut.getText().toString() + btn0.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn0.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn0.getText().toString());
-                        }
-                    }
-                    //if there is no y on the top then it means there is a number on the top
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn0.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn0.getText().toString());
-                    }
-                }
-                //check if there is = on the top of functions stack
-                //this = is placed in the stack when = button is pressed
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn0.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn0.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit0));
             }
         });
 
@@ -122,344 +125,47 @@ public class MainActivity extends AppCompatActivity {
 
         btn1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn1.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn1.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "1");
-                            tvOut.setText(tvOut.getText().toString() + btn1.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn1.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn1.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn1.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn1.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText().toString() + btn1.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn1.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit1));
             }
         });
         btn2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn2.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn2.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "2");
-                            tvOut.setText(tvOut.getText().toString() + btn2.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn2.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn2.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn2.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn2.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn2.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn2.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit2));
             }
         });
         btn3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn3.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn3.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "3");
-                            tvOut.setText(tvOut.getText().toString() + btn3.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn3.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn3.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn3.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn3.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn3.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn3.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit3));
             }
         });
         btn4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn4.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn4.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "4");
-                            tvOut.setText(tvOut.getText().toString() + btn4.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn4.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn4.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn4.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn4.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn4.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn4.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit4));
             }
         });
         btn5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn5.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn5.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "5");
-                            tvOut.setText(tvOut.getText().toString() + btn5.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn5.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn5.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn5.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn5.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn5.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn5.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit5));
             }
         });
         btn6.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn6.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn6.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "6");
-                            tvOut.setText(tvOut.getText().toString() + btn6.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn6.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn6.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn6.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn6.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn6.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn6.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit6));
             }
         });
         btn7.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn7.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn7.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "7");
-                            tvOut.setText(tvOut.getText().toString() + btn7.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn7.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn7.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn7.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn7.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn7.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn7.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit7));
             }
         });
         btn8.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn8.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn8.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "8");
-                            tvOut.setText(tvOut.getText().toString() + btn8.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn8.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn8.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn8.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn8.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn8.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn8.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit8));
             }
         });
         btn9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                if(digits.empty()){
-                    tvIO.setText(tvIO.getText() + btn9.getText().toString());
-                    tvOut.setText(tvOut.getText() + btn9.getText().toString());
-                }
-                else{
-                    if (!digits.peek().toString().equals("y")){
-                        if(tvIO.getText().toString().equals("")){
-                            tvIO.setText(digits.pop().toString() + "9");
-                            tvOut.setText(tvOut.getText().toString() + btn9.getText().toString());
-                        }
-                        else{
-                            tvIO.setText(tvIO.getText() + btn9.getText().toString());
-                            tvOut.setText(tvOut.getText() + btn9.getText().toString());
-                        }
-                    }
-                    else{
-                        tvIO.setText("");
-                        digits.pop();
-                        if(digits.peek().toString().equals(")")){
-                            digits.push("*");
-                            tvOut.setText(tvOut.getText() + "*");
-                        }
-                        tvIO.setText(tvIO.getText() + btn9.getText().toString());
-                        tvOut.setText(tvOut.getText().toString() + btn9.getText().toString());
-                    }
-                }
-                if (!functions.empty() && functions.peek().toString().equals("=")){
-                    tvIO.setText("");
-                    tvOut.setText("");
-                    functions.pop();
-                    tvIO.setText(tvIO.getText() + btn9.getText().toString());
-                    tvOut.setText(tvOut.getText().toString() + btn9.getText().toString());
-                }
+                onDigitClick(findViewById(R.id.btnDigit9));
             }
         });
         btnDot.setOnClickListener(new View.OnClickListener() {
@@ -489,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                             digits.pop();
                             if(digits.peek().toString().equals(")")){
                                 digits.push("*");
+                                functions.push("*");
                                 tvOut.setText(tvOut.getText() + "*");
                             }
                             tvIO.setText(tvIO.getText() + btnDot.getText().toString());
@@ -584,7 +291,10 @@ public class MainActivity extends AppCompatActivity {
                             digits.push("y");
                         }
                         else{
-                            if(tvIO.getText().length()!=1 && !tvIO.getText().equals(".")){
+                            if(tvIO.getText().length()==1 && tvIO.getText().equals(".")){
+
+                            }
+                            else{
                                 digits.push(tvIO.getText().toString());
                                 tvOut.setText(tvOut.getText().toString() + btnMul.getText().toString() + "(");
                                 digits.push(btnMul.getText().toString());
