@@ -18,23 +18,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-	
-	//stacks to use in the calculations
+
+        //stacks to use in the calculations
 
         //whole statement will be in this stack
-	final Stack digits = new Stack();
-	
-	//it will be used while calculation
+        final Stack digits = new Stack();
+
+        //it will be used while calculation
         final Stack calculation = new Stack();
 
-	//it will contains all the operators in it including brackets
+        //it will contains all the operators in it including brackets
         final Stack functions = new Stack();
 
-	//it will contain the open brackets that will be removed when all the closed brackets have been placed
+        //it will contain the open brackets that will be removed when all the closed brackets have been placed
         final Stack brackets = new Stack();
-        
-	//get all the UI elements
-	final TextView tvOut = (TextView) findViewById(R.id.tvOut);
+
+        //get all the UI elements
+        final TextView tvOut = (TextView) findViewById(R.id.tvOut);
         final Button btnAc = (Button) findViewById(R.id.btnAC);
         final Button btnDel = (Button) findViewById(R.id.btnDEL);
         final Button btnDiv = (Button) findViewById(R.id.btnDivide);
@@ -55,15 +55,15 @@ public class MainActivity extends AppCompatActivity {
         final Button btnBracs = (Button) findViewById(R.id.btnBrackets);
         final Button btnE = (Button) findViewById(R.id.btnDigitEqual);
 
-	//click listener for all the digits will be like this
+        //click listener for all the digits will be like this
         btn0.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView tvIO = (TextView) findViewById(R.id.tvIO);
-                
+
 
                 //check if it is empty
                 if(digits.empty()){
-		            //set text in the TextView
+                    //set text in the TextView
                     tvIO.setText(tvIO.getText() + btn0.getText().toString());
                     tvOut.setText(tvOut.getText() + btn0.getText().toString());
                 }
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     //check if there is y on the top
                     //y means there is an operator before it or if there is a bracket
                     if (!digits.peek().toString().equals("y")){
-                    //check if the input textbox is empty
+                        //check if the input textbox is empty
                         if(tvIO.getText().toString().equals("")){
                             tvIO.setText(digits.pop().toString() + "0");
                             tvOut.setText(tvOut.getText().toString() + btn0.getText().toString());
@@ -85,12 +85,16 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn0.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn0.getText().toString());
                     }
                 }
                 //check if there is = on the top of functions stack
-		        //this = is placed in the stack when = button is pressed
+                //this = is placed in the stack when = button is pressed
                 if (!functions.empty() && functions.peek().toString().equals("=")){
                     tvIO.setText("");
                     tvOut.setText("");
@@ -101,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-	    //click listener for AC button
+        //click listener for AC button
         btnAc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView tvIO = (TextView) findViewById(R.id.tvIO);
 
-		        //clear every stack and textboxes
+                //clear every stack and textboxes
                 tvIO.setText("");
                 tvOut.setText("");
                 digits.removeAllElements();
@@ -137,6 +141,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn1.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn1.getText().toString());
                     }
@@ -171,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn2.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn2.getText().toString());
                     }
@@ -205,6 +217,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn3.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn3.getText().toString());
                     }
@@ -239,6 +255,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn4.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn4.getText().toString());
                     }
@@ -273,6 +293,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn5.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn5.getText().toString());
                     }
@@ -307,6 +331,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn6.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn6.getText().toString());
                     }
@@ -341,6 +369,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn7.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn7.getText().toString());
                     }
@@ -375,6 +407,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn8.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn8.getText().toString());
                     }
@@ -409,6 +445,10 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         tvIO.setText("");
                         digits.pop();
+                        if(digits.peek().toString().equals(")")){
+                            digits.push("*");
+                            tvOut.setText(tvOut.getText() + "*");
+                        }
                         tvIO.setText(tvIO.getText() + btn9.getText().toString());
                         tvOut.setText(tvOut.getText().toString() + btn9.getText().toString());
                     }
@@ -426,8 +466,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 TextView tvIO = (TextView) findViewById(R.id.tvIO);
 
-		        //first of all we check if there is a dot in the input text box
-		        //rest of the function will remain same as the digit's click listener
+                //first of all we check if there is a dot in the input text box
+                //rest of the function will remain same as the digit's click listener
                 if(tvIO.getText().length()!=0 && !tvIO.getText().toString().contains(".")){
                     if(digits.empty()){
                         tvIO.setText(tvIO.getText() + btnDot.getText().toString());
@@ -447,6 +487,10 @@ public class MainActivity extends AppCompatActivity {
                         else{
                             tvIO.setText("");
                             digits.pop();
+                            if(digits.peek().toString().equals(")")){
+                                digits.push("*");
+                                tvOut.setText(tvOut.getText() + "*");
+                            }
                             tvIO.setText(tvIO.getText() + btnDot.getText().toString());
                             tvOut.setText(tvOut.getText().toString() + btnDot.getText().toString());
                         }
@@ -459,26 +503,30 @@ public class MainActivity extends AppCompatActivity {
                         tvOut.setText(tvOut.getText().toString() + btnDot.getText().toString());
                     }
                 }
+                else{
+                    tvIO.setText(".");
+                    tvOut.setText(".");
+                }
             }
         });
 
-	    //click listener for brackets button
+        //click listener for brackets button
         btnBracs.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-		        //check if functions contains =
+                //check if functions contains =
                 if (!functions.empty() && functions.peek().toString().equals("=")){
                     functions.pop();
                 }
                 TextView tvIO = (TextView) findViewById(R.id.tvIO);
-		        //check if digits contains y
-		        //because we place y after an operator or brackets
+                //check if digits contains y
+                //because we place y after an operator or brackets
                 if(digits.contains("y")){
-			        //remove y
+                    //remove y
                     digits.pop();
-			        //if there is a closing bracket on the top of digits
+                    //if there is a closing bracket on the top of digits
                     if(digits.peek().equals(")")){
-			            //if there is an opening bracket in brackets stack
-			            //it means there is still a bracket to be closed
+                        //if there is an opening bracket in brackets stack
+                        //it means there is still a bracket to be closed
                         if(brackets.contains("(")) {
                             if(!digits.peek().equals(")")){
                                 digits.push(tvIO.getText().toString());
@@ -487,6 +535,7 @@ public class MainActivity extends AppCompatActivity {
                             functions.push(")");
                             brackets.pop();
                             tvOut.setText(tvOut.getText().toString() + ")");
+                            digits.push("y");
                         }
                         else{
                             if(!digits.peek().equals(")")){
@@ -498,19 +547,21 @@ public class MainActivity extends AppCompatActivity {
                             functions.push("(");
                             brackets.push("(");
                             tvOut.setText(tvOut.getText().toString() + btnMul.getText().toString() + "(");
+                            digits.push("y");
                         }
                     }
                     else {
-			            //if there is not a closing bracket on the top
-			            //then we will push an opening bracket in every stack
+                        //if there is not a closing bracket on the top
+                        //then we will push an opening bracket in every stack
                         digits.push("(");
                         functions.push("(");
                         brackets.push("(");
                         tvOut.setText(tvOut.getText().toString() + "(");
+                        digits.push("y");
                     }
                 }
                 else{
-			        //if there no y on the top
+                    //if there no y on the top
                     if(brackets.contains("(")){
                         if(!digits.peek().equals(")")){
                             digits.push(tvIO.getText().toString());
@@ -519,28 +570,37 @@ public class MainActivity extends AppCompatActivity {
                         functions.push(")");
                         tvOut.setText(tvOut.getText().toString() + ")");
                         brackets.pop();
+                        digits.push("y");
                     }
                     else{
                         if(digits.empty() && tvIO.getText().toString().equals("")){
                             digits.push("1");
                             tvOut.setText(tvOut.getText().toString() + "(");
+                            digits.push(btnMul.getText().toString());
+                            digits.push("(");
+                            functions.push("*");
+                            functions.push("(");
+                            brackets.push("(");
+                            digits.push("y");
                         }
                         else{
-                            digits.push(tvIO.getText().toString());
-                            tvOut.setText(tvOut.getText().toString() + btnMul.getText().toString() + "(");
+                            if(tvIO.getText().length()!=1 && !tvIO.getText().equals(".")){
+                                digits.push(tvIO.getText().toString());
+                                tvOut.setText(tvOut.getText().toString() + btnMul.getText().toString() + "(");
+                                digits.push(btnMul.getText().toString());
+                                digits.push("(");
+                                functions.push("*");
+                                functions.push("(");
+                                brackets.push("(");
+                                digits.push("y");
+                            }
                         }
-                        digits.push(btnMul.getText().toString());
-                        digits.push("(");
-                        functions.push("*");
-                        functions.push("(");
-                        brackets.push("(");
                     }
                 }
-                digits.push("y");
             }
         });
 
-	    //click listener of delete button
+        //click listener of delete button
         btnDel.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 TextView tvInOut = (TextView) findViewById(R.id.tvIO);
@@ -613,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-	//click listener for add button
+        //click listener for add button
         btnAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!functions.empty() && functions.peek().toString().equals("=")){
@@ -655,7 +715,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-	//click listener for subract button
+        //click listener for subract button
         btnSub.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!functions.empty() && functions.peek().toString().equals("=")){
@@ -697,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-	//click listener for division button
+        //click listener for division button
         btnDiv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!functions.empty() && functions.peek().toString().equals("=")){
@@ -739,7 +799,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-	//click listener for multiply button
+        //click listener for multiply button
         btnMul.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!functions.empty() && functions.peek().toString().equals("=")){
@@ -781,7 +841,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-	//click listener for equal button
+        //click listener for equal button
         btnE.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 TextView tvIO = (TextView) findViewById(R.id.tvIO);
